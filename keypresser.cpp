@@ -9,10 +9,8 @@
 #include <windows.h>
 
 
-#define X 390
-#define Y 800
-#define SCREEN_WIDTH 1024
-#define SCREEN_HEIGHT 800
+#define SCREEN_WIDTH 1536
+#define SCREEN_HEIGHT 864
 
 
 void MouseSetup(INPUT *buffer)
@@ -32,6 +30,16 @@ void MouseMoveAbsolute(INPUT *buffer, int x, int y)
     buffer->mi.dx = (x * (0xFFFF / SCREEN_WIDTH));
     buffer->mi.dy = (y * (0xFFFF / SCREEN_HEIGHT));
     buffer->mi.dwFlags = (MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE);
+
+    SendInput(1, buffer, sizeof(INPUT));
+}
+
+
+void MouseMoveRelative(INPUT *buffer, int dx, int dy)
+{
+    buffer->mi.dx = dx;
+    buffer->mi.dy = dy;
+    buffer->mi.dwFlags = MOUSEEVENTF_MOVE;
 
     SendInput(1, buffer, sizeof(INPUT));
 }
